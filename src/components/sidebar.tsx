@@ -9,6 +9,7 @@ import {
   BarChart3,
   Settings,
   Zap,
+  GitBranch,
 } from "lucide-react";
 
 const navItems = [
@@ -16,6 +17,7 @@ const navItems = [
   { href: "/pipeline", label: "Pipeline", icon: TrendingUp },
   { href: "/kpis", label: "KPIs", icon: BarChart3 },
   { href: "/systems", label: "Systems", icon: Zap },
+  { href: "/systems-map", label: "Systems Map", icon: GitBranch },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
