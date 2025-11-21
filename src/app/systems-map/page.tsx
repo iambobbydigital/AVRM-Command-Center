@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import ReactFlow, {
   Node,
   Edge,
@@ -11,7 +11,7 @@ import ReactFlow, {
   useEdgesState,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { systemsData } from "@/lib/systems-data";
+import { SystemsData, AVRMFunction, Task } from "@/lib/systems-data";
 
 // Custom node components
 function TaskNode({ data }: { data: { label: string; code: string; output: string } }) {
@@ -48,102 +48,157 @@ const nodeTypes = {
   functionHeader: FunctionHeader,
 };
 
-export default function SystemsMapPage() {
+function buildNodesAndEdges(systemsData: SystemsData) {
+  const nodes: Node[] = [];
+  const edges: Edge[] = [];
+
   const COLUMN_WIDTH = 200;
   const TASK_HEIGHT = 70;
   const HEADER_Y = 0;
   const TASKS_START_Y = 100;
 
-  const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
-    const nodes: Node[] = [];
-    const edges: Edge[] = [];
+  // Create function columns
+  systemsData.functions.forEach((func: AVRMFunction, funcIndex: number) => {
+    const x = funcIndex * COLUMN_WIDTH + 50;
 
-    // Create function columns
-    systemsData.functions.forEach((func, funcIndex) => {
-      const x = funcIndex * COLUMN_WIDTH + 50;
+    // Function header
+    nodes.push({
+      id: `header-${func.id}`,
+      type: "functionHeader",
+      position: { x, y: HEADER_Y },
+      data: { label: func.name, description: func.description.slice(0, 40) + "..." },
+      draggable: false,
+    });
 
-      // Function header
+    // Tasks
+    const tasks = systemsData.tasks.filter((t: Task) => t.function_id === func.id);
+    tasks.forEach((task: Task, taskIndex: number) => {
+      const nodeId = `task-${task.id}`;
       nodes.push({
-        id: `header-${func.id}`,
-        type: "functionHeader",
-        position: { x, y: HEADER_Y },
-        data: { label: func.name, description: func.description.slice(0, 40) + "..." },
-        draggable: false,
+        id: nodeId,
+        type: "task",
+        position: { x, y: TASKS_START_Y + taskIndex * TASK_HEIGHT },
+        data: { label: task.name, code: task.code, output: task.output },
       });
 
-      // Tasks
-      const tasks = systemsData.tasks.filter((t) => t.function_id === func.id);
-      tasks.forEach((task, taskIndex) => {
-        const nodeId = `task-${task.id}`;
-        nodes.push({
-          id: nodeId,
-          type: "task",
-          position: { x, y: TASKS_START_Y + taskIndex * TASK_HEIGHT },
-          data: { label: task.name, code: task.code, output: task.output },
-        });
-
-        // Connect to previous task in same column
-        if (taskIndex > 0) {
-          edges.push({
-            id: `edge-${tasks[taskIndex - 1].id}-${task.id}`,
-            source: `task-${tasks[taskIndex - 1].id}`,
-            target: nodeId,
-            type: "smoothstep",
-            style: { stroke: "#525252" },
-          });
-        }
-      });
-
-      // Goal at bottom
-      const lastTaskY = TASKS_START_Y + tasks.length * TASK_HEIGHT;
-      nodes.push({
-        id: `goal-${func.goal.id}`,
-        type: "goal",
-        position: { x: x + 10, y: lastTaskY + 30 },
-        data: { label: func.goal.name, target: func.goal.target },
-        draggable: false,
-      });
-
-      // Connect last task to goal
-      if (tasks.length > 0) {
+      // Connect to previous task in same column
+      if (taskIndex > 0) {
         edges.push({
-          id: `edge-${tasks[tasks.length - 1].id}-goal`,
-          source: `task-${tasks[tasks.length - 1].id}`,
-          target: `goal-${func.goal.id}`,
+          id: `edge-${tasks[taskIndex - 1].id}-${task.id}`,
+          source: `task-${tasks[taskIndex - 1].id}`,
+          target: nodeId,
           type: "smoothstep",
-          style: { stroke: "#22c55e" },
+          style: { stroke: "#525252" },
         });
-      }
-
-      // Connect to next function (handoff)
-      if (funcIndex < systemsData.functions.length - 1) {
-        const nextFunc = systemsData.functions[funcIndex + 1];
-        const nextTasks = systemsData.tasks.filter((t) => t.function_id === nextFunc.id);
-        if (tasks.length > 0 && nextTasks.length > 0) {
-          edges.push({
-            id: `handoff-${func.id}-${nextFunc.id}`,
-            source: `goal-${func.goal.id}`,
-            target: `task-${nextTasks[0].id}`,
-            type: "smoothstep",
-            animated: true,
-            style: { stroke: "#3b82f6", strokeWidth: 2 },
-          });
-        }
       }
     });
 
-    return { nodes, edges };
+    // Goal at bottom
+    const lastTaskY = TASKS_START_Y + tasks.length * TASK_HEIGHT;
+    nodes.push({
+      id: `goal-${func.goal.id}`,
+      type: "goal",
+      position: { x: x + 10, y: lastTaskY + 30 },
+      data: { label: func.goal.name, target: func.goal.target },
+      draggable: false,
+    });
+
+    // Connect last task to goal
+    if (tasks.length > 0) {
+      edges.push({
+        id: `edge-${tasks[tasks.length - 1].id}-goal`,
+        source: `task-${tasks[tasks.length - 1].id}`,
+        target: `goal-${func.goal.id}`,
+        type: "smoothstep",
+        style: { stroke: "#22c55e" },
+      });
+    }
+
+    // Connect to next function (handoff)
+    if (funcIndex < systemsData.functions.length - 1) {
+      const nextFunc = systemsData.functions[funcIndex + 1];
+      const nextTasks = systemsData.tasks.filter((t: Task) => t.function_id === nextFunc.id);
+      if (tasks.length > 0 && nextTasks.length > 0) {
+        edges.push({
+          id: `handoff-${func.id}-${nextFunc.id}`,
+          source: `goal-${func.goal.id}`,
+          target: `task-${nextTasks[0].id}`,
+          type: "smoothstep",
+          animated: true,
+          style: { stroke: "#3b82f6", strokeWidth: 2 },
+        });
+      }
+    }
+  });
+
+  return { nodes, edges };
+}
+
+export default function SystemsMapPage() {
+  const [systemsData, setSystemsData] = useState<SystemsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch systems data from API
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("/api/systems");
+        if (!response.ok) {
+          throw new Error("Failed to load systems data");
+        }
+        const data = await response.json();
+        setSystemsData(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load data");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
   }, []);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  // Build nodes and edges from fetched data
+  const { initialNodes, initialEdges } = useMemo(() => {
+    if (!systemsData) {
+      return { initialNodes: [], initialEdges: [] };
+    }
+    const { nodes, edges } = buildNodesAndEdges(systemsData);
+    return { initialNodes: nodes, initialEdges: edges };
+  }, [systemsData]);
+
+  const [nodes, , onNodesChange] = useNodesState(initialNodes);
+  const [edges, , onEdgesChange] = useEdgesState(initialEdges);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+        <div className="text-neutral-400">Loading systems data...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+        <div className="text-red-400">Error: {error}</div>
+      </div>
+    );
+  }
+
+  if (!systemsData) {
+    return null;
+  }
 
   return (
     <div className="space-y-4">
       <div>
         <h2 className="text-2xl font-bold text-white">Business Systems Map</h2>
         <p className="text-neutral-400">
-          Interactive visualization of AVRM operational workflow
+          Interactive visualization of AVRM operational workflow (dynamically loaded from YAML)
+        </p>
+        <p className="text-xs text-neutral-600 mt-1">
+          Last updated: {systemsData.last_updated} • Version: {systemsData.version}
         </p>
       </div>
 
