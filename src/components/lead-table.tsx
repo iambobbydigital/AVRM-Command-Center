@@ -15,68 +15,68 @@ interface LeadTableProps {
 }
 
 const stageBadgeColor: Record<string, string> = {
-  Lead: "bg-slate-100 text-slate-700",
-  Qualified: "bg-blue-100 text-blue-700",
-  Meeting: "bg-purple-100 text-purple-700",
-  Proposal: "bg-orange-100 text-orange-700",
-  Signed: "bg-green-100 text-green-700",
+  Lead: "bg-neutral-700 text-neutral-200",
+  Qualified: "bg-blue-500/20 text-blue-400",
+  Meeting: "bg-purple-500/20 text-purple-400",
+  Proposal: "bg-orange-500/20 text-orange-400",
+  Signed: "bg-emerald-500/20 text-emerald-400",
 };
 
 export function LeadTable({ leads }: LeadTableProps) {
   return (
-    <Card className="overflow-hidden">
-      <div className="px-6 py-4 border-b">
-        <h3 className="text-lg font-semibold">Top Opportunities</h3>
+    <Card className="overflow-hidden bg-neutral-900 border-neutral-800">
+      <div className="px-6 py-4 border-b border-neutral-800">
+        <h3 className="text-lg font-semibold text-white">Top Opportunities</h3>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-slate-50 border-b">
+          <thead className="bg-neutral-800/50 border-b border-neutral-800">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
+              <th className="px-6 py-3 text-left text-xs font-medium text-neutral-400 uppercase">
                 Property
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
+              <th className="px-6 py-3 text-left text-xs font-medium text-neutral-400 uppercase">
                 Owner
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
+              <th className="px-6 py-3 text-left text-xs font-medium text-neutral-400 uppercase">
                 Score
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
+              <th className="px-6 py-3 text-left text-xs font-medium text-neutral-400 uppercase">
                 Stage
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">
+              <th className="px-6 py-3 text-left text-xs font-medium text-neutral-400 uppercase">
                 Est. Value
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y">
+          <tbody className="divide-y divide-neutral-800">
             {leads.map((lead) => (
-              <tr key={lead.id} className="hover:bg-slate-50">
-                <td className="px-6 py-4 text-sm text-slate-900">
+              <tr key={lead.id} className="hover:bg-neutral-800/50">
+                <td className="px-6 py-4 text-sm text-white">
                   {lead.propertyAddress}
                 </td>
-                <td className="px-6 py-4 text-sm text-slate-600">
+                <td className="px-6 py-4 text-sm text-neutral-300">
                   {lead.ownerName}
                 </td>
                 <td className="px-6 py-4">
                   <span
                     className={`inline-flex items-center justify-center w-10 h-10 rounded-full text-sm font-bold ${
                       lead.opportunityScore >= 80
-                        ? "bg-green-100 text-green-700"
+                        ? "bg-emerald-500/20 text-emerald-400"
                         : lead.opportunityScore >= 60
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-slate-100 text-slate-700"
+                        ? "bg-amber-500/20 text-amber-400"
+                        : "bg-neutral-700 text-neutral-300"
                     }`}
                   >
                     {lead.opportunityScore}
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <Badge className={stageBadgeColor[lead.stage] || "bg-slate-100"}>
+                  <Badge className={stageBadgeColor[lead.stage] || "bg-neutral-700"}>
                     {lead.stage}
                   </Badge>
                 </td>
-                <td className="px-6 py-4 text-sm text-slate-600">
+                <td className="px-6 py-4 text-sm text-neutral-300">
                   {lead.estimatedValue}
                 </td>
               </tr>

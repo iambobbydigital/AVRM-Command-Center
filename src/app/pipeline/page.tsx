@@ -3,7 +3,7 @@ import { LeadTable } from "@/components/lead-table";
 
 // Placeholder data - will be replaced with API calls
 const pipelineStages = [
-  { name: "Leads", count: 247, value: "$741K", color: "#64748b" },
+  { name: "Leads", count: 247, value: "$741K", color: "#525252" },
   { name: "Qualified", count: 89, value: "$267K", color: "#3b82f6" },
   { name: "Meeting Booked", count: 23, value: "$69K", color: "#8b5cf6" },
   { name: "Proposal Sent", count: 12, value: "$36K", color: "#f97316" },
@@ -57,8 +57,8 @@ export default function PipelinePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">Lead Pipeline</h2>
-        <p className="text-slate-500">
+        <h2 className="text-2xl font-bold text-white">Lead Pipeline</h2>
+        <p className="text-neutral-400">
           Track leads from discovery to signed contracts
         </p>
       </div>

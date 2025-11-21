@@ -15,20 +15,20 @@ const statusConfig = {
   healthy: {
     icon: CheckCircle,
     label: "Healthy",
-    color: "text-green-600",
-    badge: "bg-green-100 text-green-700 border-green-200",
+    color: "text-emerald-400",
+    badge: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
   },
   warning: {
     icon: AlertCircle,
     label: "Warning",
-    color: "text-yellow-600",
-    badge: "bg-yellow-100 text-yellow-700 border-yellow-200",
+    color: "text-amber-400",
+    badge: "bg-amber-500/10 text-amber-400 border-amber-500/30",
   },
   error: {
     icon: XCircle,
     label: "Error",
-    color: "text-red-600",
-    badge: "bg-red-100 text-red-700 border-red-200",
+    color: "text-red-400",
+    badge: "bg-red-500/10 text-red-400 border-red-500/30",
   },
 };
 
@@ -44,25 +44,25 @@ export function SystemCard({
   const Icon = config.icon;
 
   return (
-    <Card className="p-4">
+    <Card className="p-4 bg-neutral-900 border-neutral-800">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           <Icon className={`h-5 w-5 ${config.color}`} />
           <div>
             <div className="flex items-center gap-2">
-              <h4 className="font-semibold text-slate-900">{name}</h4>
+              <h4 className="font-semibold text-white">{name}</h4>
               {url && (
                 <a
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-slate-600"
+                  className="text-neutral-500 hover:text-neutral-300"
                 >
                   <ExternalLink className="h-3 w-3" />
                 </a>
               )}
             </div>
-            <p className="text-sm text-slate-500">{description}</p>
+            <p className="text-sm text-neutral-400">{description}</p>
           </div>
         </div>
         <Badge variant="outline" className={config.badge}>
@@ -70,7 +70,7 @@ export function SystemCard({
         </Badge>
       </div>
       {(lastRun || responseTime) && (
-        <div className="mt-3 pt-3 border-t flex gap-4 text-xs text-slate-400">
+        <div className="mt-3 pt-3 border-t border-neutral-800 flex gap-4 text-xs text-neutral-500">
           {lastRun && <span>Last run: {lastRun}</span>}
           {responseTime && <span>Response: {responseTime}ms</span>}
         </div>

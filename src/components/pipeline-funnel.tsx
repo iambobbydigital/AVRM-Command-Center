@@ -15,8 +15,8 @@ export function PipelineFunnel({ stages }: PipelineFunnelProps) {
   const maxCount = Math.max(...stages.map((s) => s.count));
 
   return (
-    <Card className="p-6">
-      <h3 className="text-lg font-semibold mb-6">Sales Pipeline</h3>
+    <Card className="p-6 bg-neutral-900 border-neutral-800">
+      <h3 className="text-lg font-semibold text-white mb-6">Sales Pipeline</h3>
       <div className="space-y-3">
         {stages.map((stage) => {
           const width = (stage.count / maxCount) * 100;
@@ -34,8 +34,8 @@ export function PipelineFunnel({ stages }: PipelineFunnelProps) {
                 </span>
               </div>
               <div className="absolute right-0 top-0 h-12 flex items-center gap-4 pr-2">
-                <span className="text-slate-600 font-semibold">{stage.count}</span>
-                <span className="text-slate-400 text-sm">{stage.value}</span>
+                <span className="text-white font-semibold">{stage.count}</span>
+                <span className="text-neutral-400 text-sm">{stage.value}</span>
               </div>
             </div>
           );

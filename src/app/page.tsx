@@ -50,21 +50,21 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">Dashboard</h2>
-        <p className="text-slate-500">Overview of your vacation rental operations</p>
+        <h2 className="text-2xl font-bold text-white">Dashboard</h2>
+        <p className="text-neutral-400">Overview of your vacation rental operations</p>
       </div>
 
       <MetricGrid metrics={dashboardMetrics} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
-          <p className="text-slate-500 text-sm">Activity feed coming soon...</p>
+        <Card className="p-6 bg-neutral-900 border-neutral-800">
+          <h3 className="text-lg font-semibold text-white mb-4">Recent Activity</h3>
+          <p className="text-neutral-400 text-sm">Activity feed coming soon...</p>
         </Card>
 
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-4">System Status</h3>
-          <p className="text-slate-500 text-sm">Status indicators coming soon...</p>
+        <Card className="p-6 bg-neutral-900 border-neutral-800">
+          <h3 className="text-lg font-semibold text-white mb-4">System Status</h3>
+          <p className="text-neutral-400 text-sm">Status indicators coming soon...</p>
         </Card>
       </div>
     </div>

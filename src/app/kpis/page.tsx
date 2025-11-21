@@ -76,16 +76,16 @@ export default function KPIsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">KPI Dashboard</h2>
-        <p className="text-slate-500">Track performance across all business functions</p>
+        <h2 className="text-2xl font-bold text-white">KPI Dashboard</h2>
+        <p className="text-neutral-400">Track performance across all business functions</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList>
-          <TabsTrigger value="marketing">Marketing</TabsTrigger>
-          <TabsTrigger value="sales">Sales</TabsTrigger>
-          <TabsTrigger value="hosting">Hosting</TabsTrigger>
-          <TabsTrigger value="finance">Finance</TabsTrigger>
+        <TabsList className="bg-neutral-800 border-neutral-700">
+          <TabsTrigger value="marketing" className="data-[state=active]:bg-neutral-700 data-[state=active]:text-white text-neutral-400">Marketing</TabsTrigger>
+          <TabsTrigger value="sales" className="data-[state=active]:bg-neutral-700 data-[state=active]:text-white text-neutral-400">Sales</TabsTrigger>
+          <TabsTrigger value="hosting" className="data-[state=active]:bg-neutral-700 data-[state=active]:text-white text-neutral-400">Hosting</TabsTrigger>
+          <TabsTrigger value="finance" className="data-[state=active]:bg-neutral-700 data-[state=active]:text-white text-neutral-400">Finance</TabsTrigger>
         </TabsList>
 
         {Object.entries(kpisByFunction).map(([key, data]) => (
