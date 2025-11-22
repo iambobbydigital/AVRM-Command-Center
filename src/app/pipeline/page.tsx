@@ -1,71 +1,58 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { PipelineFunnel } from "@/components/pipeline-funnel";
 import { LeadTable } from "@/components/lead-table";
-
-// Placeholder data - will be replaced with API calls
-const pipelineStages = [
-  { name: "Leads", count: 247, value: "$741K", color: "#525252" },
-  { name: "Qualified", count: 89, value: "$267K", color: "#3b82f6" },
-  { name: "Meeting Booked", count: 23, value: "$69K", color: "#8b5cf6" },
-  { name: "Proposal Sent", count: 12, value: "$36K", color: "#f97316" },
-  { name: "Signed", count: 4, value: "$12K", color: "#22c55e" },
-];
-
-const topLeads = [
-  {
-    id: "1",
-    propertyAddress: "123 Mountain View Dr, Woodstock, NY",
-    ownerName: "John Smith",
-    opportunityScore: 92,
-    stage: "Meeting",
-    estimatedValue: "$8,500/yr",
-  },
-  {
-    id: "2",
-    propertyAddress: "456 Lake Shore Rd, Windham, NY",
-    ownerName: "Sarah Johnson",
-    opportunityScore: 88,
-    stage: "Qualified",
-    estimatedValue: "$12,000/yr",
-  },
-  {
-    id: "3",
-    propertyAddress: "789 Forest Lane, Phoenicia, NY",
-    ownerName: "Michael Chen",
-    opportunityScore: 85,
-    stage: "Proposal",
-    estimatedValue: "$6,200/yr",
-  },
-  {
-    id: "4",
-    propertyAddress: "321 Creek View, Hunter, NY",
-    ownerName: "Emily Davis",
-    opportunityScore: 82,
-    stage: "Lead",
-    estimatedValue: "$9,800/yr",
-  },
-  {
-    id: "5",
-    propertyAddress: "654 Summit Rd, Tannersville, NY",
-    ownerName: "Robert Wilson",
-    opportunityScore: 79,
-    stage: "Qualified",
-    estimatedValue: "$7,500/yr",
-  },
-];
+import type { PipelineFunnelStage, Lead } from "@/types";
 
 export default function PipelinePage() {
+  const [funnelStages, setFunnelStages] = useState<PipelineFunnelStage[]>([]);
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // Fetch funnel data
+        const funnelRes = await fetch("/api/pipeline/funnel");
+        const funnelData = await funnelRes.json();
+        if (funnelData.success) {
+          setFunnelStages(funnelData.data);
+        }
+
+        // Fetch leads data
+        const leadsRes = await fetch("/api/pipeline/leads");
+        const leadsData = await leadsRes.json();
+        if (leadsData.success) {
+          setLeads(leadsData.data);
+        }
+      } catch (error) {
+        console.error("Error fetching pipeline data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+        <div className="text-neutral-400">Loading pipeline...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-white">Lead Pipeline</h2>
-        <p className="text-neutral-400">
-          Track leads from discovery to signed contracts
-        </p>
+        <h2 className="text-2xl font-bold text-white">Sales Pipeline</h2>
+        <p className="text-neutral-400">Lead progression from verification to signed contracts</p>
       </div>
 
-      <PipelineFunnel stages={pipelineStages} />
-
-      <LeadTable leads={topLeads} />
+      <PipelineFunnel stages={funnelStages} />
+      <LeadTable leads={leads} />
     </div>
   );
 }
