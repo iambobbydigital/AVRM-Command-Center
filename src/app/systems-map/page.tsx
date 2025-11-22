@@ -52,20 +52,28 @@ function buildNodesAndEdges(systemsData: SystemsData) {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
 
-  const COLUMN_WIDTH = 200;
-  const TASK_HEIGHT = 70;
-  const HEADER_Y = 0;
-  const TASKS_START_Y = 100;
+  // Professional grid layout constants
+  const LAYOUT = {
+    COLUMN_WIDTH: 280,        // Wide enough for wrapped text
+    COLUMN_GAP: 100,          // Clear separation between functions
+    HEADER_Y: 50,             // Top margin
+    TASKS_START_Y: 150,       // Space below headers
+    TASK_HEIGHT: 90,          // Increased for wrapped text
+    TASK_VERTICAL_GAP: 20,    // Breathing room between tasks
+    GOAL_MARGIN_TOP: 40,      // Space before goal node
+    NODE_WIDTH: 240,          // Standard node width
+    GOAL_WIDTH: 200,          // Goal node width
+  };
 
   // Create function columns
   systemsData.functions.forEach((func: AVRMFunction, funcIndex: number) => {
-    const x = funcIndex * COLUMN_WIDTH + 50;
+    const x = funcIndex * (LAYOUT.COLUMN_WIDTH + LAYOUT.COLUMN_GAP) + 50;
 
     // Function header
     nodes.push({
       id: `header-${func.id}`,
       type: "functionHeader",
-      position: { x, y: HEADER_Y },
+      position: { x, y: LAYOUT.HEADER_Y },
       data: { label: func.name, description: func.description.slice(0, 40) + "..." },
       draggable: false,
     });
@@ -77,7 +85,10 @@ function buildNodesAndEdges(systemsData: SystemsData) {
       nodes.push({
         id: nodeId,
         type: "task",
-        position: { x, y: TASKS_START_Y + taskIndex * TASK_HEIGHT },
+        position: {
+          x,
+          y: LAYOUT.TASKS_START_Y + taskIndex * (LAYOUT.TASK_HEIGHT + LAYOUT.TASK_VERTICAL_GAP)
+        },
         data: { label: task.name, code: task.code, output: task.output },
       });
 
@@ -94,11 +105,11 @@ function buildNodesAndEdges(systemsData: SystemsData) {
     });
 
     // Goal at bottom
-    const lastTaskY = TASKS_START_Y + tasks.length * TASK_HEIGHT;
+    const lastTaskY = LAYOUT.TASKS_START_Y + tasks.length * (LAYOUT.TASK_HEIGHT + LAYOUT.TASK_VERTICAL_GAP);
     nodes.push({
       id: `goal-${func.goal.id}`,
       type: "goal",
-      position: { x: x + 10, y: lastTaskY + 30 },
+      position: { x, y: lastTaskY + LAYOUT.GOAL_MARGIN_TOP },
       data: { label: func.goal.name, target: func.goal.target },
       draggable: false,
     });
