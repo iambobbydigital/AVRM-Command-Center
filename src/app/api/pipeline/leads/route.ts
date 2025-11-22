@@ -11,6 +11,7 @@ export async function GET() {
       fields: [
         "Listing ID",
         "Address Verified",
+        "Address Verification Status",
         "Overall Opportunity Score",
         "Annual Revenue Gap",
         "GoHighLevel Export Status",
