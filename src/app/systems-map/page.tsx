@@ -17,13 +17,13 @@ import { SystemsData, AVRMFunction, Task } from "@/lib/systems-data";
 function TaskNode({ data }: { data: { label: string; code: string; output: string } }) {
   return (
     <div className="w-[240px] px-4 py-3 rounded-lg bg-orange-500/20 border border-orange-500/50">
-      <div className="text-[11px] text-orange-400 font-mono font-semibold mb-1 text-center">
+      <div className="text-xs text-orange-400 font-mono font-semibold mb-1 text-center">
         {data.code}
       </div>
-      <div className="text-sm font-medium text-white text-center leading-tight break-words">
+      <div className="text-base font-medium text-white text-center leading-tight break-words">
         {data.label}
       </div>
-      <div className="text-[10px] text-neutral-400 text-center mt-2 italic">
+      <div className="text-xs text-neutral-400 text-center mt-2 italic">
         → {data.output}
       </div>
     </div>
@@ -33,10 +33,10 @@ function TaskNode({ data }: { data: { label: string; code: string; output: strin
 function GoalNode({ data }: { data: { label: string; target: string } }) {
   return (
     <div className="w-[200px] px-5 py-4 rounded-full bg-emerald-500/20 border-2 border-emerald-500 text-center">
-      <div className="text-sm font-bold text-emerald-400 break-words leading-tight">
+      <div className="text-base font-bold text-emerald-400 break-words leading-tight">
         {data.label}
       </div>
-      <div className="text-[11px] text-neutral-400 mt-1">
+      <div className="text-xs text-neutral-400 mt-1">
         {data.target}
       </div>
     </div>
@@ -46,10 +46,10 @@ function GoalNode({ data }: { data: { label: string; target: string } }) {
 function FunctionHeader({ data }: { data: { label: string; description: string } }) {
   return (
     <div className="w-[240px] px-4 py-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-center">
-      <div className="text-base font-bold text-blue-400">
+      <div className="text-lg font-bold text-blue-400">
         {data.label}
       </div>
-      <div className="text-[10px] text-neutral-500 mt-1 leading-snug break-words">
+      <div className="text-xs text-neutral-500 mt-1 leading-snug break-words">
         {data.description}
       </div>
     </div>
@@ -69,12 +69,12 @@ function buildNodesAndEdges(systemsData: SystemsData) {
   // Professional grid layout constants
   const LAYOUT = {
     COLUMN_WIDTH: 280,        // Wide enough for wrapped text
-    COLUMN_GAP: 100,          // Clear separation between functions
+    COLUMN_GAP: 40,           // Double the vertical task spacing
     HEADER_Y: 50,             // Top margin
     TASKS_START_Y: 150,       // Space below headers
-    TASK_HEIGHT: 90,          // Increased for wrapped text
+    TASK_HEIGHT: 110,         // Increased for wrapped text consistency
     TASK_VERTICAL_GAP: 20,    // Breathing room between tasks
-    GOAL_MARGIN_TOP: 40,      // Space before goal node
+    GOAL_MARGIN_TOP: 20,      // Same spacing as between tasks
     NODE_WIDTH: 240,          // Standard node width
     GOAL_WIDTH: 200,          // Goal node width
   };
@@ -118,12 +118,13 @@ function buildNodesAndEdges(systemsData: SystemsData) {
       }
     });
 
-    // Goal at bottom
+    // Goal at bottom (centered in column)
     const lastTaskY = LAYOUT.TASKS_START_Y + tasks.length * (LAYOUT.TASK_HEIGHT + LAYOUT.TASK_VERTICAL_GAP);
+    const goalX = x + (LAYOUT.NODE_WIDTH - LAYOUT.GOAL_WIDTH) / 2; // Center goal in column
     nodes.push({
       id: `goal-${func.goal.id}`,
       type: "goal",
-      position: { x, y: lastTaskY + LAYOUT.GOAL_MARGIN_TOP },
+      position: { x: goalX, y: lastTaskY + LAYOUT.GOAL_MARGIN_TOP },
       data: { label: func.goal.name, target: func.goal.target },
       draggable: false,
     });
