@@ -20,10 +20,10 @@ function TaskNode({ data }: { data: { label: string; code: string; output: strin
       <div className="text-xs text-orange-400 font-mono font-semibold mb-1 text-center">
         {data.code}
       </div>
-      <div className="text-base font-medium text-white text-center leading-tight break-words">
+      <div className="text-xl font-medium text-white text-center leading-tight break-words">
         {data.label}
       </div>
-      <div className="text-xs text-neutral-400 text-center mt-2 italic">
+      <div className="text-base text-neutral-400 text-center mt-2 italic">
         → {data.output}
       </div>
     </div>
