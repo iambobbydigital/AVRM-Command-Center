@@ -1,4 +1,5 @@
 import { ExpenseManager } from "@/components/expense-manager";
+import { HostawayManager } from "@/components/hostaway-manager";
 
 export default function SettingsPage() {
   return (
@@ -8,9 +9,9 @@ export default function SettingsPage() {
         <p className="text-neutral-400">Manage expense tracking and property filters</p>
       </div>
 
-      <ExpenseManager />
+      <HostawayManager />
 
-      {/* TODO: Add Hostaway property filter management here */}
+      <ExpenseManager />
     </div>
   );
 }
