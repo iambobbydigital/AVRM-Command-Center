@@ -14,7 +14,8 @@ export const supabase = () => {
 
 // Server-side client with service role (for API routes)
 export function createClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  // Use SUPABASE_URL (without NEXT_PUBLIC prefix) for server-side code
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "";
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 
   if (!supabaseUrl || !serviceRoleKey) {
@@ -22,6 +23,13 @@ export function createClient() {
     if (typeof window === 'undefined' && process.env.NODE_ENV !== 'production') {
       return {} as ReturnType<typeof createSupabaseClient>;
     }
+
+    // Throw error in production if env vars are missing
+    throw new Error(
+      `Missing Supabase environment variables. ` +
+      `Server-side requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY. ` +
+      `Got: supabaseUrl=${!!supabaseUrl}, serviceRoleKey=${!!serviceRoleKey}`
+    );
   }
 
   return createSupabaseClient(supabaseUrl, serviceRoleKey);
