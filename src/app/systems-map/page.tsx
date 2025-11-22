@@ -16,7 +16,7 @@ import { SystemsData, AVRMFunction, Task } from "@/lib/systems-data";
 // Custom node components
 function TaskNode({ data }: { data: { label: string; code: string; output: string } }) {
   return (
-    <div className="w-[240px] min-h-[130px] px-4 py-3 rounded-lg bg-orange-500/20 border border-orange-500/50 flex flex-col justify-center">
+    <div className="w-[240px] min-h-[160px] px-4 py-3 rounded-lg bg-orange-500/20 border border-orange-500/50 flex flex-col justify-center">
       <div className="text-xs text-orange-400 font-mono font-semibold mb-1 text-center">
         {data.code}
       </div>
@@ -72,7 +72,7 @@ function buildNodesAndEdges(systemsData: SystemsData) {
     COLUMN_GAP: 40,           // Double the vertical task spacing
     HEADER_Y: 50,             // Top margin
     TASKS_START_Y: 150,       // Space below headers
-    TASK_HEIGHT: 130,         // Fixed height for consistent spacing
+    TASK_HEIGHT: 160,         // Fixed height for 3-line wrapped text
     TASK_VERTICAL_GAP: 20,    // Breathing room between tasks
     GOAL_MARGIN_TOP: 20,      // Same spacing as between tasks
     NODE_WIDTH: 240,          // Standard node width
