@@ -237,7 +237,7 @@ export default function SystemsMapPage() {
         </p>
       </div>
 
-      <div className="h-[calc(100vh-200px)] bg-neutral-950 rounded-lg border border-neutral-800">
+      <div className="h-[calc(100vh-300px)] bg-neutral-950 rounded-lg border border-neutral-800">
         <ReactFlow
           nodes={nodes}
           edges={edges}
