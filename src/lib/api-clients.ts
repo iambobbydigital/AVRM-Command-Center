@@ -83,12 +83,14 @@ export async function fetchHostaway(endpoint: string) {
   const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${apiKey}`,
+      "X-Hostaway-Account": accountId, // Required per Hostaway API docs
     },
     next: { revalidate: 60 },
   });
 
   if (!response.ok) {
-    throw new Error(`Hostaway error: ${response.statusText}`);
+    const errorBody = await response.text();
+    throw new Error(`Hostaway error (${response.status}): ${errorBody}`);
   }
 
   return response.json();
