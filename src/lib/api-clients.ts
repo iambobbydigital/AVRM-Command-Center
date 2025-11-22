@@ -3,6 +3,7 @@ export async function fetchAirtable(tableName: string, options?: {
   maxRecords?: number;
   filterByFormula?: string;
   sort?: Array<{ field: string; direction: "asc" | "desc" }>;
+  fields?: string[];
 }) {
   const baseId = process.env.AIRTABLE_BASE_ID;
   const apiKey = process.env.AIRTABLE_API_KEY;
@@ -18,6 +19,11 @@ export async function fetchAirtable(tableName: string, options?: {
     options.sort.forEach((s, i) => {
       params.set(`sort[${i}][field]`, s.field);
       params.set(`sort[${i}][direction]`, s.direction);
+    });
+  }
+  if (options?.fields) {
+    options.fields.forEach((f) => {
+      params.append("fields[]", f);
     });
   }
 
