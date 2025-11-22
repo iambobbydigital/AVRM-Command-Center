@@ -6,10 +6,11 @@ import { SystemsData } from "@/lib/systems-data";
 
 export async function GET() {
   try {
-    // Read YAML file from the parent directory
+    // Read YAML file from src/data directory
     const yamlPath = join(
       process.cwd(),
-      "..",
+      "src",
+      "data",
       "avrm_systems_data.yaml"
     );
 

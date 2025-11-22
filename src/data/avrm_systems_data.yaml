@@ -1,0 +1,1602 @@
+# AVRM Systems Data - Machine-Readable Format
+# Version: 1.0.0
+# Last Updated: 2025-11-20
+# Purpose: Structured data for visualizations, dashboards, and integrations
+
+version: "1.0.0"
+last_updated: "2025-11-20"
+source_document: "AVRM_SYSTEMS_REFERENCE.md"
+
+# ============================================================================
+# FUNCTIONS - Top-level business functions
+# ============================================================================
+
+functions:
+  - id: marketing
+    name: Marketing
+    sequence: 1
+    description: "Generate qualified leads for vacation rental management services"
+    goal:
+      id: goal_booked_meetings
+      name: "Book Meetings"
+      description: "Book qualified discovery meetings with property owners"
+      success_metric: "Number of booked discovery meetings per month"
+      target: "8-15/month"
+    task_ids:
+      - m1_build_leads
+      - m2_find_address
+      - m3_evaluate_listing
+      - m4_create_materials
+      - m5_setup_campaigns
+      - m6_send_outreach
+      - m7_follow_up
+      - m8_communicate_responders
+      - m9_book_meeting
+    asset_ids:
+      - avrm_crm_sheet
+      - rabbu
+      - pricelabs
+      - website
+      - ads_platform
+      - gohighlevel
+    kpi_ids:
+      - kpi_m_new_leads
+      - kpi_m_opportunity_score
+      - kpi_m_outreach_sent
+      - kpi_m_response_rate
+      - kpi_m_meetings_booked
+      - kpi_m_lead_to_meeting
+      - kpi_m_cost_per_meeting
+
+  - id: sales
+    name: Sales
+    sequence: 2
+    description: "Convert qualified leads into signed clients"
+    goal:
+      id: goal_signed_contract
+      name: "Signed Contract & Onboarding Paid"
+      description: "Close deals and collect onboarding fees"
+      success_metric: "Number of signed management agreements per month"
+      target: "2-4/month"
+    task_ids:
+      - s1_property_research
+      - s2_discovery_meeting
+      - s3_create_presentation
+      - s4_customize_agreement
+      - s5_conversion_meeting
+      - s6_create_invoice
+    asset_ids:
+      - rabbu
+      - pricelabs
+      - pitch_deck
+      - management_agreement
+      - stripe_invoicing
+    kpi_ids:
+      - kpi_s_discovery_held
+      - kpi_s_conversion_held
+      - kpi_s_agreements_signed
+      - kpi_s_conversion_rate
+      - kpi_s_avg_deal_size
+      - kpi_s_sales_cycle
+      - kpi_s_onboarding_collection
+
+  - id: onboarding
+    name: Onboarding
+    sequence: 3
+    description: "Setup new client properties for successful management"
+    goal:
+      id: goal_live_listing
+      name: "Live Listing"
+      description: "Property fully configured and live on all booking channels"
+      success_metric: "Days from contract signing to live listing"
+      target: "7-14 days"
+    task_ids:
+      - o1_onboarding_meeting
+      - o2_schedule_photography
+      - o3_edit_photos
+      - o4_listing_copywriting
+      - o5_listing_setup
+      - o6_pricing_setup
+      - o7_messaging_setup
+      - o8_client_account
+      - o9_cleaner_setup
+    asset_ids:
+      - onboarding_sheet
+      - photography_service
+      - photo_editing
+      - hostaway
+      - pricelabs
+    kpi_ids:
+      - kpi_o_time_to_live
+      - kpi_o_completion_rate
+      - kpi_o_owner_satisfaction
+      - kpi_o_photo_quality
+      - kpi_o_setup_accuracy
+      - kpi_o_pricing_config_time
+
+  - id: hosting
+    name: Hosting
+    sequence: 4
+    description: "Deliver exceptional guest experiences and generate bookings"
+    goal:
+      id: goal_bookings_reviews
+      name: "Generate Bookings & 5 Star Reviews"
+      description: "High occupancy with excellent guest satisfaction"
+      success_metric: "Occupancy rate and average review rating"
+      target: "60-80% occupancy, 4.8+ rating"
+    task_ids:
+      - h1_respond_inquiries
+      - h2_communicate_guests
+      - h3_coordinate_cleanings
+      - h4_communicate_owners
+      - h5_manage_issues
+      - h6_export_tax_docs
+    asset_ids:
+      - hostaway
+      - sms_platform
+      - ota_airbnb
+      - ota_vrbo
+      - ota_booking
+    kpi_ids:
+      - kpi_h_occupancy
+      - kpi_h_avg_rating
+      - kpi_h_five_star_pct
+      - kpi_h_response_time
+      - kpi_h_inquiry_conversion
+      - kpi_h_issue_resolution
+      - kpi_h_cleaning_quality
+      - kpi_h_owner_satisfaction
+      - kpi_h_repeat_guest
+
+  - id: finance
+    name: Finance
+    sequence: 5
+    description: "Manage cash flow, payments, and profitability"
+    goal:
+      id: goal_cashflow_profits
+      name: "Manage Cashflow and Profits"
+      description: "Positive cash flow with healthy profit margins"
+      success_metric: "Monthly profit margin"
+      target: "30-50%"
+    task_ids:
+      - f1_owner_statements
+      - f2_track_revenue
+      - f3_track_expenses
+      - f4_create_invoices
+      - f5_owner_payouts
+      - f6_pay_myself
+      - f7_prepare_tax_docs
+    asset_ids:
+      - hostaway
+      - financial_tracking_sheet
+      - stripe_invoicing
+      - chase_banking
+      - quickbooks
+    kpi_ids:
+      - kpi_f_monthly_revenue_gross
+      - kpi_f_monthly_revenue_net
+      - kpi_f_profit_margin
+      - kpi_f_payment_accuracy
+      - kpi_f_payment_timeliness
+      - kpi_f_cash_reserves
+      - kpi_f_revenue_growth
+      - kpi_f_ar_current
+
+# ============================================================================
+# TASKS - Individual work items
+# ============================================================================
+
+tasks:
+  # MARKETING TASKS
+  - id: m1_build_leads
+    code: M1
+    name: "Build Lead Lists"
+    function_id: marketing
+    description: "Identify target properties in the market using Listing Locator system"
+    output: "Lead List"
+    asset_ids:
+      - avrm_crm_sheet
+    time_estimate: "Automated (2-3 hours setup)"
+    frequency: "Weekly batch updates"
+    dependencies: []
+    automation_status: full
+    automation_priority: high
+
+  - id: m2_find_address
+    code: M2
+    name: "Find Listing Address"
+    function_id: marketing
+    description: "Geocode and verify physical addresses for target properties"
+    output: "Located Leads"
+    asset_ids:
+      - avrm_crm_sheet
+    time_estimate: "Automated (seconds per property)"
+    frequency: "Per lead"
+    dependencies:
+      - m1_build_leads
+    automation_status: full
+    automation_priority: high
+
+  - id: m3_evaluate_listing
+    code: M3
+    name: "Evaluate Listing Features and Opportunities"
+    function_id: marketing
+    description: "Analyze property performance and identify revenue gaps"
+    output: "Evaluated Leads"
+    asset_ids:
+      - rabbu
+      - pricelabs
+    time_estimate: "Automated (2-3 min per property)"
+    frequency: "Per lead"
+    dependencies:
+      - m2_find_address
+    automation_status: full
+    automation_priority: high
+
+  - id: m4_create_materials
+    code: M4
+    name: "Create Marketing Materials"
+    function_id: marketing
+    description: "Generate personalized marketing content for outreach"
+    output: "Ad Variations"
+    asset_ids:
+      - website
+      - ads_platform
+    time_estimate: "2-3 hours per campaign"
+    frequency: "Weekly"
+    dependencies:
+      - m3_evaluate_listing
+    automation_status: partial
+    automation_priority: medium
+
+  - id: m5_setup_campaigns
+    code: M5
+    name: "Setup Campaigns"
+    function_id: marketing
+    description: "Configure multi-channel outreach campaigns in CRM"
+    output: "Live Campaigns"
+    asset_ids:
+      - gohighlevel
+    time_estimate: "1-2 hours per campaign"
+    frequency: "Weekly"
+    dependencies:
+      - m4_create_materials
+    automation_status: partial
+    automation_priority: medium
+
+  - id: m6_send_outreach
+    code: M6
+    name: "Send Outreach Messages"
+    function_id: marketing
+    description: "Deploy first-touch outreach across all channels"
+    output: "Initial Messages Sent"
+    asset_ids:
+      - gohighlevel
+    time_estimate: "Automated"
+    frequency: "Daily/Weekly"
+    dependencies:
+      - m5_setup_campaigns
+    automation_status: full
+    automation_priority: high
+
+  - id: m7_follow_up
+    code: M7
+    name: "Follow Up with Non Responders"
+    function_id: marketing
+    description: "Automated follow-up sequences for non-responders"
+    output: "Follow Ups Sent"
+    asset_ids:
+      - gohighlevel
+    time_estimate: "Automated"
+    frequency: "Per sequence"
+    dependencies:
+      - m6_send_outreach
+    automation_status: full
+    automation_priority: high
+
+  - id: m8_communicate_responders
+    code: M8
+    name: "Communicate with Responders"
+    function_id: marketing
+    description: "Engage with interested prospects and qualify intent"
+    output: "Warm Leads"
+    asset_ids:
+      - gohighlevel
+    time_estimate: "15-30 min per prospect"
+    frequency: "As responses come in"
+    dependencies:
+      - m6_send_outreach
+    automation_status: partial
+    automation_priority: medium
+
+  - id: m9_book_meeting
+    code: M9
+    name: "Book a Discovery Meeting"
+    function_id: marketing
+    description: "Schedule qualified discovery calls with prospects"
+    output: "Booked Meetings"
+    asset_ids:
+      - gohighlevel
+    time_estimate: "5-10 min per booking"
+    frequency: "Per qualified lead"
+    dependencies:
+      - m8_communicate_responders
+    automation_status: partial
+    automation_priority: medium
+
+  # SALES TASKS
+  - id: s1_property_research
+    code: S1
+    name: "Property Research"
+    function_id: sales
+    description: "Deep-dive analysis of prospect's property and market position"
+    output: "Prepared Property Reports"
+    asset_ids:
+      - rabbu
+      - pricelabs
+    time_estimate: "2-3 hours"
+    frequency: "Per prospect"
+    dependencies:
+      - m9_book_meeting
+    automation_status: none
+    automation_priority: high
+
+  - id: s2_discovery_meeting
+    code: S2
+    name: "Discovery Meeting"
+    function_id: sales
+    description: "Initial consultation to understand needs and goals"
+    output: "Qualified Leads"
+    asset_ids: []
+    time_estimate: "45-60 min"
+    frequency: "Per booked meeting"
+    dependencies:
+      - s1_property_research
+    automation_status: none
+    automation_priority: low
+
+  - id: s3_create_presentation
+    code: S3
+    name: "Create Presentation"
+    function_id: sales
+    description: "Personalized presentation with revenue projections"
+    output: "Customized Deck"
+    asset_ids:
+      - pitch_deck
+    time_estimate: "1-2 hours"
+    frequency: "Per qualified lead"
+    dependencies:
+      - s2_discovery_meeting
+    automation_status: none
+    automation_priority: medium
+
+  - id: s4_customize_agreement
+    code: S4
+    name: "Customize Management Agreement"
+    function_id: sales
+    description: "Prepare property-specific management contract"
+    output: "Ready to Sign Agreement"
+    asset_ids:
+      - management_agreement
+    time_estimate: "30-45 min"
+    frequency: "Per qualified lead"
+    dependencies:
+      - s2_discovery_meeting
+    automation_status: none
+    automation_priority: medium
+
+  - id: s5_conversion_meeting
+    code: S5
+    name: "Conversion Meeting"
+    function_id: sales
+    description: "Present customized proposal and close the deal"
+    output: "Agreement Signed"
+    asset_ids: []
+    time_estimate: "60-90 min"
+    frequency: "Per qualified lead"
+    dependencies:
+      - s3_create_presentation
+      - s4_customize_agreement
+    automation_status: none
+    automation_priority: low
+
+  - id: s6_create_invoice
+    code: S6
+    name: "Create Onboarding Invoice"
+    function_id: sales
+    description: "Bill onboarding fee and collect payment"
+    output: "Onboarding Fee Paid"
+    asset_ids:
+      - stripe_invoicing
+    time_estimate: "15-20 min"
+    frequency: "Per signed contract"
+    dependencies:
+      - s5_conversion_meeting
+    automation_status: partial
+    automation_priority: medium
+
+  # ONBOARDING TASKS
+  - id: o1_onboarding_meeting
+    code: O1
+    name: "Client Onboarding Meeting"
+    function_id: onboarding
+    description: "Comprehensive kickoff meeting to gather all property details"
+    output: "Onboarding Sheet Completed"
+    asset_ids:
+      - onboarding_sheet
+    time_estimate: "90-120 min"
+    frequency: "Per new client"
+    dependencies:
+      - s6_create_invoice
+    automation_status: none
+    automation_priority: medium
+
+  - id: o2_schedule_photography
+    code: O2
+    name: "Schedule Photography"
+    function_id: onboarding
+    description: "Book professional property photography session"
+    output: "Photos Delivered"
+    asset_ids:
+      - photography_service
+    time_estimate: "30 min scheduling + 2-3 hour shoot"
+    frequency: "Per property"
+    dependencies:
+      - o1_onboarding_meeting
+    automation_status: none
+    automation_priority: low
+
+  - id: o3_edit_photos
+    code: O3
+    name: "Edit Photos"
+    function_id: onboarding
+    description: "Professional editing and curation of property photos"
+    output: "Photo Selects Delivered"
+    asset_ids:
+      - photo_editing
+    time_estimate: "1-2 hours"
+    frequency: "Per property"
+    dependencies:
+      - o2_schedule_photography
+    automation_status: none
+    automation_priority: low
+
+  - id: o4_listing_copywriting
+    code: O4
+    name: "Listing Copywriting"
+    function_id: onboarding
+    description: "Write compelling listing title, description, and amenities"
+    output: "Listing Copy Complete"
+    asset_ids: []
+    time_estimate: "2-3 hours"
+    frequency: "Per property"
+    dependencies:
+      - o3_edit_photos
+    automation_status: none
+    automation_priority: high
+
+  - id: o5_listing_setup
+    code: O5
+    name: "Listing Setup"
+    function_id: onboarding
+    description: "Create property listing in property management system"
+    output: "Configured Listing"
+    asset_ids:
+      - hostaway
+    time_estimate: "2-3 hours"
+    frequency: "Per property"
+    dependencies:
+      - o4_listing_copywriting
+    automation_status: none
+    automation_priority: medium
+
+  - id: o6_pricing_setup
+    code: O6
+    name: "Pricing Setup"
+    function_id: onboarding
+    description: "Configure dynamic pricing strategy"
+    output: "PriceLabs Configured"
+    asset_ids:
+      - pricelabs
+    time_estimate: "1-2 hours"
+    frequency: "Per property"
+    dependencies:
+      - o5_listing_setup
+    automation_status: none
+    automation_priority: medium
+
+  - id: o7_messaging_setup
+    code: O7
+    name: "AI Messaging Setup"
+    function_id: onboarding
+    description: "Configure automated guest messaging templates"
+    output: "Messaging Configured"
+    asset_ids:
+      - hostaway
+    time_estimate: "1-2 hours"
+    frequency: "Per property"
+    dependencies:
+      - o5_listing_setup
+    automation_status: partial
+    automation_priority: high
+
+  - id: o8_client_account
+    code: O8
+    name: "Client Account Setup"
+    function_id: onboarding
+    description: "Provide owner with access to all relevant systems"
+    output: "Client Access Delivered"
+    asset_ids:
+      - hostaway
+      - pricelabs
+      - financial_tracking_sheet
+    time_estimate: "1 hour"
+    frequency: "Per client"
+    dependencies:
+      - o5_listing_setup
+      - o6_pricing_setup
+      - o7_messaging_setup
+    automation_status: none
+    automation_priority: low
+
+  - id: o9_cleaner_setup
+    code: O9
+    name: "Cleaner Setup"
+    function_id: onboarding
+    description: "Onboard cleaning team for property"
+    output: "Cleaner Access Delivered"
+    asset_ids:
+      - hostaway
+    time_estimate: "30-60 min"
+    frequency: "Per property"
+    dependencies:
+      - o5_listing_setup
+    automation_status: none
+    automation_priority: low
+
+  # HOSTING TASKS
+  - id: h1_respond_inquiries
+    code: H1
+    name: "Respond to Inquiries"
+    function_id: hosting
+    description: "Answer guest questions and convert inquiries to bookings"
+    output: "Bookings"
+    asset_ids:
+      - hostaway
+    time_estimate: "5-15 min per inquiry"
+    frequency: "Daily"
+    dependencies: []
+    automation_status: partial
+    automation_priority: high
+
+  - id: h2_communicate_guests
+    code: H2
+    name: "Communicate with Guests"
+    function_id: hosting
+    description: "Proactive guest communication throughout stay"
+    output: "5 Star Reviews"
+    asset_ids:
+      - sms_platform
+    time_estimate: "Mostly automated"
+    frequency: "Per booking"
+    dependencies: []
+    automation_status: partial
+    automation_priority: high
+
+  - id: h3_coordinate_cleanings
+    code: H3
+    name: "Coordinate Cleanings"
+    function_id: hosting
+    description: "Schedule and QA all property cleanings"
+    output: "5 Star Reviews"
+    asset_ids:
+      - hostaway
+    time_estimate: "15-30 min per turnover"
+    frequency: "Per booking"
+    dependencies: []
+    automation_status: partial
+    automation_priority: medium
+
+  - id: h4_communicate_owners
+    code: H4
+    name: "Communicate with Owners"
+    function_id: hosting
+    description: "Keep owners informed and engaged"
+    output: "Owner Retention"
+    asset_ids:
+      - ota_airbnb
+      - ota_vrbo
+      - hostaway
+    time_estimate: "1-2 hours per month per owner"
+    frequency: "Weekly/Monthly"
+    dependencies: []
+    automation_status: partial
+    automation_priority: medium
+
+  - id: h5_manage_issues
+    code: H5
+    name: "Manage Issues"
+    function_id: hosting
+    description: "Rapidly resolve guest issues and property problems"
+    output: "5 Star Reviews"
+    asset_ids:
+      - hostaway
+    time_estimate: "Variable (30 min - 4+ hours)"
+    frequency: "As needed"
+    dependencies: []
+    automation_status: none
+    automation_priority: medium
+
+  - id: h6_export_tax_docs
+    code: H6
+    name: "Export Tax Docs"
+    function_id: hosting
+    description: "Provide owners with annual tax documentation"
+    output: "Owner Retention"
+    asset_ids:
+      - hostaway
+    time_estimate: "30 min per property"
+    frequency: "Annually"
+    dependencies: []
+    automation_status: none
+    automation_priority: low
+
+  # FINANCE TASKS
+  - id: f1_owner_statements
+    code: F1
+    name: "Create Owner's Statements"
+    function_id: finance
+    description: "Generate monthly financial statements for property owners"
+    output: "Income"
+    asset_ids:
+      - hostaway
+    time_estimate: "1-2 hours per property"
+    frequency: "Monthly"
+    dependencies: []
+    automation_status: none
+    automation_priority: high
+
+  - id: f2_track_revenue
+    code: F2
+    name: "Track Monthly Revenue"
+    function_id: finance
+    description: "Monitor all revenue streams across properties"
+    output: "Cashflow"
+    asset_ids:
+      - hostaway
+      - financial_tracking_sheet
+    time_estimate: "2-3 hours per month"
+    frequency: "Daily sync, monthly reconciliation"
+    dependencies: []
+    automation_status: partial
+    automation_priority: medium
+
+  - id: f3_track_expenses
+    code: F3
+    name: "Track Monthly Expenses"
+    function_id: finance
+    description: "Track all business operating expenses"
+    output: "Cashflow"
+    asset_ids:
+      - financial_tracking_sheet
+    time_estimate: "2-3 hours per month"
+    frequency: "Weekly entry, monthly reconciliation"
+    dependencies: []
+    automation_status: partial
+    automation_priority: medium
+
+  - id: f4_create_invoices
+    code: F4
+    name: "Create Invoices"
+    function_id: finance
+    description: "Bill owners for management fees and expenses"
+    output: "Income"
+    asset_ids:
+      - stripe_invoicing
+    time_estimate: "30-60 min per month"
+    frequency: "Monthly"
+    dependencies:
+      - f1_owner_statements
+    automation_status: partial
+    automation_priority: medium
+
+  - id: f5_owner_payouts
+    code: F5
+    name: "Send Owner Payouts"
+    function_id: finance
+    description: "Transfer net earnings to property owners"
+    output: "Cashflow"
+    asset_ids:
+      - chase_banking
+    time_estimate: "1-2 hours per month"
+    frequency: "Monthly"
+    dependencies:
+      - f1_owner_statements
+    automation_status: none
+    automation_priority: medium
+
+  - id: f6_pay_myself
+    code: F6
+    name: "Pay Myself"
+    function_id: finance
+    description: "Transfer profits from business to personal accounts"
+    output: "Profits"
+    asset_ids:
+      - chase_banking
+    time_estimate: "15-30 min"
+    frequency: "Monthly or quarterly"
+    dependencies:
+      - f2_track_revenue
+      - f3_track_expenses
+    automation_status: none
+    automation_priority: low
+
+  - id: f7_prepare_tax_docs
+    code: F7
+    name: "Prepare Tax Docs"
+    function_id: finance
+    description: "Organize financial records for tax preparation"
+    output: "Profits"
+    asset_ids:
+      - financial_tracking_sheet
+      - quickbooks
+    time_estimate: "4-8 hours"
+    frequency: "Annually"
+    dependencies:
+      - f2_track_revenue
+      - f3_track_expenses
+    automation_status: none
+    automation_priority: low
+
+# ============================================================================
+# ASSETS - Tools, platforms, and resources
+# ============================================================================
+
+assets:
+  - id: gohighlevel
+    name: "GoHighLevel"
+    type: software
+    description: "Primary CRM for lead management and marketing automation"
+    category: crm
+    url: "https://gohighlevel.com"
+    cost:
+      monthly: 297
+      notes: "Pro plan"
+    used_by_functions:
+      - marketing
+    used_by_tasks:
+      - m5_setup_campaigns
+      - m6_send_outreach
+      - m7_follow_up
+      - m8_communicate_responders
+      - m9_book_meeting
+
+  - id: avrm_crm_sheet
+    name: "Active VRM CRM Sheet"
+    type: template
+    description: "Google Sheets-based lead scoring and tracking system"
+    category: crm
+    cost:
+      monthly: 0
+      notes: "Google Workspace included"
+    used_by_functions:
+      - marketing
+    used_by_tasks:
+      - m1_build_leads
+      - m2_find_address
+
+  - id: hostaway
+    name: "Hostaway"
+    type: software
+    description: "Core property management system for listings, bookings, and guest communication"
+    category: pms
+    url: "https://hostaway.com"
+    cost:
+      monthly: null
+      per_unit: 20
+      notes: "$20-30 per property per month"
+    used_by_functions:
+      - onboarding
+      - hosting
+      - finance
+    used_by_tasks:
+      - o5_listing_setup
+      - o7_messaging_setup
+      - o8_client_account
+      - o9_cleaner_setup
+      - h1_respond_inquiries
+      - h2_communicate_guests
+      - h3_coordinate_cleanings
+      - h4_communicate_owners
+      - h5_manage_issues
+      - h6_export_tax_docs
+      - f1_owner_statements
+      - f2_track_revenue
+
+  - id: pricelabs
+    name: "PriceLabs"
+    type: software
+    description: "Dynamic pricing automation and market analytics"
+    category: pricing
+    url: "https://pricelabs.co"
+    cost:
+      monthly: null
+      per_unit: 20
+      notes: "$20-30 per property per month"
+    used_by_functions:
+      - marketing
+      - sales
+      - onboarding
+    used_by_tasks:
+      - m3_evaluate_listing
+      - s1_property_research
+      - o6_pricing_setup
+      - o8_client_account
+
+  - id: rabbu
+    name: "Rabbu"
+    type: software
+    description: "Property research and competitive analysis tool"
+    category: research
+    url: "https://rabbu.com"
+    cost:
+      monthly: 49
+    used_by_functions:
+      - marketing
+      - sales
+    used_by_tasks:
+      - m3_evaluate_listing
+      - s1_property_research
+
+  - id: stripe_invoicing
+    name: "Stripe Invoicing"
+    type: software
+    description: "Client billing and payment collection"
+    category: finance
+    url: "https://stripe.com"
+    cost:
+      monthly: 0
+      notes: "Transaction fees apply (2.9% + $0.30)"
+    used_by_functions:
+      - sales
+      - finance
+    used_by_tasks:
+      - s6_create_invoice
+      - f4_create_invoices
+
+  - id: chase_banking
+    name: "Chase Business Checking"
+    type: service
+    description: "Business banking and owner payouts"
+    category: finance
+    url: "https://chase.com"
+    cost:
+      monthly: 15
+      notes: "Waived with minimum balance"
+    used_by_functions:
+      - finance
+    used_by_tasks:
+      - f5_owner_payouts
+      - f6_pay_myself
+
+  - id: financial_tracking_sheet
+    name: "Financial Tracking Sheet"
+    type: template
+    description: "Custom Google Sheets financial dashboard"
+    category: finance
+    cost:
+      monthly: 0
+    used_by_functions:
+      - finance
+    used_by_tasks:
+      - f2_track_revenue
+      - f3_track_expenses
+      - f7_prepare_tax_docs
+      - o8_client_account
+
+  - id: pitch_deck
+    name: "Pitch Deck"
+    type: template
+    description: "Sales presentation template"
+    category: sales
+    cost:
+      monthly: 0
+    used_by_functions:
+      - sales
+    used_by_tasks:
+      - s3_create_presentation
+
+  - id: management_agreement
+    name: "Management Agreement"
+    type: template
+    description: "Legal contract template for property management"
+    category: sales
+    cost:
+      monthly: 0
+      notes: "One-time legal review cost"
+    used_by_functions:
+      - sales
+    used_by_tasks:
+      - s4_customize_agreement
+
+  - id: onboarding_sheet
+    name: "Onboarding Sheet"
+    type: template
+    description: "New client data collection form"
+    category: operations
+    cost:
+      monthly: 0
+    used_by_functions:
+      - onboarding
+    used_by_tasks:
+      - o1_onboarding_meeting
+
+  - id: photography_service
+    name: "Photography Services"
+    type: service
+    description: "Professional property photographers"
+    category: operations
+    cost:
+      per_unit: 350
+      notes: "$300-500 per property shoot"
+    used_by_functions:
+      - onboarding
+    used_by_tasks:
+      - o2_schedule_photography
+
+  - id: photo_editing
+    name: "Photo Editing Tools"
+    type: software
+    description: "Lightroom, Photoshop for image enhancement"
+    category: operations
+    cost:
+      monthly: 55
+      notes: "Adobe Creative Cloud"
+    used_by_functions:
+      - onboarding
+    used_by_tasks:
+      - o3_edit_photos
+
+  - id: website
+    name: "Website"
+    type: software
+    description: "Lead generation and brand presence"
+    category: marketing
+    cost:
+      monthly: 30
+      notes: "Hosting + domain"
+    used_by_functions:
+      - marketing
+    used_by_tasks:
+      - m4_create_materials
+
+  - id: ads_platform
+    name: "Ads Platform"
+    type: software
+    description: "Google/Facebook paid advertising"
+    category: marketing
+    cost:
+      monthly: null
+      notes: "Variable ad spend"
+    used_by_functions:
+      - marketing
+    used_by_tasks:
+      - m4_create_materials
+
+  - id: sms_platform
+    name: "SMS Platform"
+    type: software
+    description: "Guest and owner messaging (Hostaway integrated)"
+    category: communication
+    cost:
+      monthly: null
+      notes: "Included in Hostaway"
+    used_by_functions:
+      - hosting
+    used_by_tasks:
+      - h2_communicate_guests
+
+  - id: ota_airbnb
+    name: "Airbnb"
+    type: service
+    description: "Primary booking platform"
+    category: booking_channel
+    url: "https://airbnb.com"
+    cost:
+      monthly: 0
+      notes: "15-17% commission on bookings"
+    used_by_functions:
+      - hosting
+    used_by_tasks:
+      - h4_communicate_owners
+
+  - id: ota_vrbo
+    name: "VRBO"
+    type: service
+    description: "Secondary booking platform"
+    category: booking_channel
+    url: "https://vrbo.com"
+    cost:
+      monthly: 0
+      notes: "8-10% commission on bookings"
+    used_by_functions:
+      - hosting
+    used_by_tasks:
+      - h4_communicate_owners
+
+  - id: ota_booking
+    name: "Booking.com"
+    type: service
+    description: "Tertiary booking platform"
+    category: booking_channel
+    url: "https://booking.com"
+    cost:
+      monthly: 0
+      notes: "15-18% commission on bookings"
+    used_by_functions:
+      - hosting
+    used_by_tasks: []
+
+  - id: quickbooks
+    name: "QuickBooks"
+    type: software
+    description: "Accounting software for tax preparation"
+    category: finance
+    url: "https://quickbooks.intuit.com"
+    cost:
+      monthly: 30
+      notes: "Simple Start plan"
+    used_by_functions:
+      - finance
+    used_by_tasks:
+      - f7_prepare_tax_docs
+
+# ============================================================================
+# KPIs - Key Performance Indicators
+# ============================================================================
+
+kpis:
+  # Business-level KPIs
+  - id: kpi_mrr
+    name: "Monthly Recurring Revenue (MRR)"
+    description: "Total management fees earned per month"
+    level: business
+    formula: "Sum of all monthly management fees"
+    target: "$5,000-$15,000+"
+    unit: "$/month"
+    measurement_frequency: monthly
+    data_source: "Hostaway, Financial Tracking Sheet"
+    dashboard_priority: primary
+
+  - id: kpi_arr
+    name: "Annual Recurring Revenue (ARR)"
+    description: "MRR × 12"
+    level: business
+    formula: "MRR × 12"
+    target: "$60,000-$180,000+"
+    unit: "$/year"
+    measurement_frequency: monthly
+    data_source: "Calculated from MRR"
+    dashboard_priority: primary
+
+  - id: kpi_active_properties
+    name: "Number of Active Properties"
+    description: "Properties under management"
+    level: business
+    formula: "Count of active property contracts"
+    target: "10-30+"
+    unit: "properties"
+    measurement_frequency: monthly
+    data_source: "Hostaway"
+    dashboard_priority: primary
+
+  - id: kpi_avg_rev_per_property
+    name: "Average Revenue Per Property"
+    description: "Total revenue ÷ properties"
+    level: business
+    formula: "Total monthly revenue ÷ active properties"
+    target: "$500-$800/month"
+    unit: "$/property"
+    measurement_frequency: monthly
+    data_source: "Hostaway, Financial Tracking"
+    dashboard_priority: secondary
+
+  - id: kpi_gross_profit_margin
+    name: "Gross Profit Margin"
+    description: "(Revenue - COGS) ÷ Revenue"
+    level: business
+    formula: "(Revenue - Cost of Goods Sold) ÷ Revenue × 100"
+    target: "70-85%"
+    unit: "%"
+    measurement_frequency: monthly
+    data_source: "Financial Tracking Sheet"
+    dashboard_priority: primary
+
+  - id: kpi_net_profit_margin
+    name: "Net Profit Margin"
+    description: "Net profit ÷ Revenue"
+    level: business
+    formula: "Net profit ÷ Total revenue × 100"
+    target: "30-50%"
+    unit: "%"
+    measurement_frequency: monthly
+    data_source: "Financial Tracking Sheet"
+    dashboard_priority: primary
+
+  - id: kpi_cac
+    name: "Customer Acquisition Cost (CAC)"
+    description: "Marketing + Sales costs ÷ new clients"
+    level: business
+    formula: "(Marketing spend + Sales costs) ÷ New clients acquired"
+    target: "<$1,500"
+    unit: "$"
+    measurement_frequency: monthly
+    data_source: "Financial Tracking, CRM"
+    dashboard_priority: secondary
+
+  - id: kpi_ltv
+    name: "Customer Lifetime Value (LTV)"
+    description: "Avg property revenue × avg retention years"
+    level: business
+    formula: "Average annual revenue per property × Average retention years"
+    target: "$18,000-$30,000+"
+    unit: "$"
+    measurement_frequency: quarterly
+    data_source: "Historical data analysis"
+    dashboard_priority: secondary
+
+  - id: kpi_ltv_cac_ratio
+    name: "LTV:CAC Ratio"
+    description: "LTV ÷ CAC"
+    level: business
+    formula: "LTV ÷ CAC"
+    target: ">10:1"
+    unit: "ratio"
+    measurement_frequency: quarterly
+    data_source: "Calculated from LTV and CAC"
+    dashboard_priority: tertiary
+
+  - id: kpi_churn_rate
+    name: "Churn Rate"
+    description: "Properties lost ÷ total properties"
+    level: business
+    formula: "Properties lost this period ÷ Total properties at start × 100"
+    target: "<10%/year"
+    unit: "%/year"
+    measurement_frequency: monthly
+    data_source: "Hostaway, CRM"
+    dashboard_priority: secondary
+
+  - id: kpi_net_revenue_retention
+    name: "Net Revenue Retention"
+    description: "Revenue retained + expansion - churn"
+    level: business
+    formula: "(Starting MRR + Expansion - Churn) ÷ Starting MRR × 100"
+    target: ">100%"
+    unit: "%"
+    measurement_frequency: quarterly
+    data_source: "Financial Tracking"
+    dashboard_priority: tertiary
+
+  # Marketing KPIs
+  - id: kpi_m_new_leads
+    name: "New Leads Added"
+    function_id: marketing
+    target: "200-400/month"
+    unit: "leads"
+    measurement_frequency: weekly
+
+  - id: kpi_m_opportunity_score
+    name: "Opportunity Score Distribution"
+    function_id: marketing
+    target: "70% rated 60+"
+    unit: "%"
+    measurement_frequency: monthly
+
+  - id: kpi_m_outreach_sent
+    name: "Outreach Messages Sent"
+    function_id: marketing
+    target: "200-400/month"
+    unit: "messages"
+    measurement_frequency: weekly
+
+  - id: kpi_m_response_rate
+    name: "Response Rate"
+    function_id: marketing
+    target: "5-10%"
+    unit: "%"
+    measurement_frequency: weekly
+
+  - id: kpi_m_meetings_booked
+    name: "Discovery Meetings Booked"
+    function_id: marketing
+    target: "8-15/month"
+    unit: "meetings"
+    measurement_frequency: weekly
+
+  - id: kpi_m_lead_to_meeting
+    name: "Lead-to-Meeting Conversion"
+    function_id: marketing
+    target: "3-5%"
+    unit: "%"
+    measurement_frequency: monthly
+
+  - id: kpi_m_cost_per_meeting
+    name: "Cost Per Booked Meeting"
+    function_id: marketing
+    target: "<$150"
+    unit: "$"
+    measurement_frequency: monthly
+
+  # Sales KPIs
+  - id: kpi_s_discovery_held
+    name: "Discovery Meetings Held"
+    function_id: sales
+    target: "8-15/month"
+    unit: "meetings"
+    measurement_frequency: weekly
+
+  - id: kpi_s_conversion_held
+    name: "Conversion Meetings Held"
+    function_id: sales
+    target: "4-8/month"
+    unit: "meetings"
+    measurement_frequency: weekly
+
+  - id: kpi_s_agreements_signed
+    name: "Agreements Signed"
+    function_id: sales
+    target: "2-4/month"
+    unit: "contracts"
+    measurement_frequency: weekly
+
+  - id: kpi_s_conversion_rate
+    name: "Meeting-to-Conversion Rate"
+    function_id: sales
+    target: "25-35%"
+    unit: "%"
+    measurement_frequency: monthly
+
+  - id: kpi_s_avg_deal_size
+    name: "Average Deal Size (Annual Revenue)"
+    function_id: sales
+    target: "$5,000-$8,000/year"
+    unit: "$"
+    measurement_frequency: monthly
+
+  - id: kpi_s_sales_cycle
+    name: "Sales Cycle Length"
+    function_id: sales
+    target: "14-30 days"
+    unit: "days"
+    measurement_frequency: monthly
+
+  - id: kpi_s_onboarding_collection
+    name: "Onboarding Fee Collection Rate"
+    function_id: sales
+    target: "100%"
+    unit: "%"
+    measurement_frequency: monthly
+
+  # Onboarding KPIs
+  - id: kpi_o_time_to_live
+    name: "Time to Live Listing"
+    function_id: onboarding
+    target: "7-14 days"
+    unit: "days"
+    measurement_frequency: per_property
+
+  - id: kpi_o_completion_rate
+    name: "Onboarding Completion Rate"
+    function_id: onboarding
+    target: "100%"
+    unit: "%"
+    measurement_frequency: monthly
+
+  - id: kpi_o_owner_satisfaction
+    name: "Owner Satisfaction (onboarding)"
+    function_id: onboarding
+    target: "4.5+/5.0"
+    unit: "rating"
+    measurement_frequency: per_property
+
+  - id: kpi_o_photo_quality
+    name: "Photography Quality Score"
+    function_id: onboarding
+    target: "4.0+/5.0"
+    unit: "rating"
+    measurement_frequency: per_property
+
+  - id: kpi_o_setup_accuracy
+    name: "Listing Setup Accuracy"
+    function_id: onboarding
+    target: "95%+"
+    unit: "%"
+    measurement_frequency: monthly
+
+  - id: kpi_o_pricing_config_time
+    name: "Pricing Configuration Time"
+    function_id: onboarding
+    target: "<2 hours"
+    unit: "hours"
+    measurement_frequency: per_property
+
+  # Hosting KPIs
+  - id: kpi_h_occupancy
+    name: "Occupancy Rate"
+    function_id: hosting
+    target: "60-80%"
+    unit: "%"
+    measurement_frequency: monthly
+
+  - id: kpi_h_avg_rating
+    name: "Average Review Rating"
+    function_id: hosting
+    target: "4.8+/5.0"
+    unit: "rating"
+    measurement_frequency: monthly
+
+  - id: kpi_h_five_star_pct
+    name: "5-Star Review Percentage"
+    function_id: hosting
+    target: "85%+"
+    unit: "%"
+    measurement_frequency: monthly
+
+  - id: kpi_h_response_time
+    name: "Guest Response Time"
+    function_id: hosting
+    target: "<1 hour"
+    unit: "hours"
+    measurement_frequency: daily
+
+  - id: kpi_h_inquiry_conversion
+    name: "Inquiry-to-Booking Conversion"
+    function_id: hosting
+    target: "40-60%"
+    unit: "%"
+    measurement_frequency: weekly
+
+  - id: kpi_h_issue_resolution
+    name: "Issue Resolution Time"
+    function_id: hosting
+    target: "<24 hours"
+    unit: "hours"
+    measurement_frequency: per_incident
+
+  - id: kpi_h_cleaning_quality
+    name: "Cleaning Quality Score"
+    function_id: hosting
+    target: "4.5+/5.0"
+    unit: "rating"
+    measurement_frequency: per_clean
+
+  - id: kpi_h_owner_satisfaction
+    name: "Owner Satisfaction (hosting)"
+    function_id: hosting
+    target: "4.5+/5.0"
+    unit: "rating"
+    measurement_frequency: quarterly
+
+  - id: kpi_h_repeat_guest
+    name: "Repeat Guest Rate"
+    function_id: hosting
+    target: "15-25%"
+    unit: "%"
+    measurement_frequency: quarterly
+
+  # Finance KPIs
+  - id: kpi_f_monthly_revenue_gross
+    name: "Monthly Revenue (Gross)"
+    function_id: finance
+    target: "$20K-$50K+"
+    unit: "$"
+    measurement_frequency: monthly
+
+  - id: kpi_f_monthly_revenue_net
+    name: "Monthly Revenue (Net Fees)"
+    function_id: finance
+    target: "$3K-$10K+"
+    unit: "$"
+    measurement_frequency: monthly
+
+  - id: kpi_f_profit_margin
+    name: "Profit Margin"
+    function_id: finance
+    target: "30-50%"
+    unit: "%"
+    measurement_frequency: monthly
+
+  - id: kpi_f_payment_accuracy
+    name: "Owner Payment Accuracy"
+    function_id: finance
+    target: "100%"
+    unit: "%"
+    measurement_frequency: monthly
+
+  - id: kpi_f_payment_timeliness
+    name: "Owner Payment Timeliness"
+    function_id: finance
+    target: "100% by 15th"
+    unit: "%"
+    measurement_frequency: monthly
+
+  - id: kpi_f_cash_reserves
+    name: "Cash Reserves"
+    function_id: finance
+    target: "3-6 months operating"
+    unit: "months"
+    measurement_frequency: monthly
+
+  - id: kpi_f_revenue_growth
+    name: "Revenue Growth (YoY)"
+    function_id: finance
+    target: "20-30%"
+    unit: "%"
+    measurement_frequency: quarterly
+
+  - id: kpi_f_ar_current
+    name: "Accounts Receivable <30 days"
+    function_id: finance
+    target: ">95%"
+    unit: "%"
+    measurement_frequency: monthly
+
+# ============================================================================
+# PROCESS FLOWS - Transitions between functions
+# ============================================================================
+
+process_flows:
+  - from_function: marketing
+    to_function: sales
+    trigger_task: m9_book_meeting
+    trigger_output: "Booked Meetings"
+    handoff_criteria:
+      - "Discovery meeting scheduled"
+      - "Prospect qualified (property type, location, intent)"
+      - "Contact information complete"
+
+  - from_function: sales
+    to_function: onboarding
+    trigger_task: s6_create_invoice
+    trigger_output: "Onboarding Fee Paid"
+    handoff_criteria:
+      - "Management agreement signed"
+      - "Onboarding fee paid"
+      - "Property details collected"
+
+  - from_function: onboarding
+    to_function: hosting
+    trigger_task: o9_cleaner_setup
+    trigger_output: "Live Listing"
+    handoff_criteria:
+      - "Listing live on all channels"
+      - "Pricing configured"
+      - "Messaging automated"
+      - "Cleaner assigned"
+      - "Owner has portal access"
+
+  - from_function: hosting
+    to_function: finance
+    trigger_task: h1_respond_inquiries
+    trigger_output: "Bookings"
+    handoff_criteria:
+      - "Booking confirmed"
+      - "Revenue recorded"
+      - "Guest communication active"
+
+  - from_function: finance
+    to_function: hosting
+    trigger_task: f1_owner_statements
+    trigger_output: "Owner Retention"
+    handoff_criteria:
+      - "Monthly statement delivered"
+      - "Owner payout sent"
+      - "Owner satisfied with performance"
+
+# ============================================================================
+# AUTOMATION PRIORITIES - Ranked list for implementation
+# ============================================================================
+
+automation_roadmap:
+  high_priority:
+    - task_id: m1_build_leads
+      score: 25
+      status: implemented
+      estimated_time_savings: "100% automated"
+    - task_id: m3_evaluate_listing
+      score: 24
+      status: implemented
+      estimated_time_savings: "Instant scoring"
+    - task_id: f1_owner_statements
+      score: 23
+      status: not_started
+      estimated_time_savings: "4-6 hours/month"
+    - task_id: s1_property_research
+      score: 22
+      status: not_started
+      estimated_time_savings: "10-15 hours/month"
+    - task_id: o4_listing_copywriting
+      score: 21
+      status: not_started
+      estimated_time_savings: "3-4 hours/property"
+    - task_id: m7_follow_up
+      score: 20
+      status: implemented
+      estimated_time_savings: "100% automated"
+    - task_id: h2_communicate_guests
+      score: 20
+      status: implemented
+      estimated_time_savings: "20+ hours/month"
+
+  medium_priority:
+    - task_id: m5_setup_campaigns
+      score: 17
+      status: in_progress
+      estimated_time_savings: "2-3 hours/week"
+    - task_id: f4_create_invoices
+      score: 16
+      status: partial
+      estimated_time_savings: "2-3 hours/month"
+    - task_id: s3_create_presentation
+      score: 16
+      status: not_started
+      estimated_time_savings: "1-2 hours/prospect"
+    - task_id: s4_customize_agreement
+      score: 15
+      status: not_started
+      estimated_time_savings: "30-45 min/client"
+    - task_id: o1_onboarding_meeting
+      score: 15
+      status: not_started
+      estimated_time_savings: "1 hour/property"
+    - task_id: f5_owner_payouts
+      score: 14
+      status: not_started
+      estimated_time_savings: "1-2 hours/month"
+    - task_id: f3_track_expenses
+      score: 13
+      status: not_started
+      estimated_time_savings: "2-3 hours/month"
+
+  low_priority:
+    - task_id: f7_prepare_tax_docs
+      score: 11
+      status: not_started
+      estimated_time_savings: "4-6 hours/year"
+    - task_id: o3_edit_photos
+      score: 10
+      status: not_started
+      estimated_time_savings: "30-45 min/property"
+    - task_id: o8_client_account
+      score: 7
+      status: not_started
+      estimated_time_savings: "30 min/property"
+
+# ============================================================================
+# METADATA
+# ============================================================================
+
+metadata:
+  document_stats:
+    word_count: 18500
+    sections: 12
+    tasks_documented: 40
+    kpis_defined: 48
+    automations_identified: 18
+    assets_tracked: 20
+
+  file_info:
+    format: yaml
+    version_control: git
+    semantic_versioning: true
+    changelog: CHANGELOG.md
+    parent_document: AVRM_SYSTEMS_REFERENCE.md
+
+  usage:
+    - Dynamic process flow visualization
+    - Dashboard and reporting automation
+    - System integration data mapping
+    - API development
+    - Project management tools
+    - Performance tracking
