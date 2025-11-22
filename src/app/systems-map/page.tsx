@@ -16,28 +16,42 @@ import { SystemsData, AVRMFunction, Task } from "@/lib/systems-data";
 // Custom node components
 function TaskNode({ data }: { data: { label: string; code: string; output: string } }) {
   return (
-    <div className="px-3 py-2 rounded-lg bg-orange-500/20 border border-orange-500/50 min-w-[140px]">
-      <div className="text-[10px] text-orange-400 font-mono">{data.code}</div>
-      <div className="text-xs font-medium text-white">{data.label}</div>
-      <div className="text-[10px] text-neutral-400 mt-1">→ {data.output}</div>
+    <div className="w-[240px] px-4 py-3 rounded-lg bg-orange-500/20 border border-orange-500/50">
+      <div className="text-[11px] text-orange-400 font-mono font-semibold mb-1 text-center">
+        {data.code}
+      </div>
+      <div className="text-sm font-medium text-white text-center leading-tight break-words">
+        {data.label}
+      </div>
+      <div className="text-[10px] text-neutral-400 text-center mt-2 italic">
+        → {data.output}
+      </div>
     </div>
   );
 }
 
 function GoalNode({ data }: { data: { label: string; target: string } }) {
   return (
-    <div className="px-4 py-3 rounded-full bg-emerald-500/20 border-2 border-emerald-500 min-w-[120px] text-center">
-      <div className="text-xs font-bold text-emerald-400">{data.label}</div>
-      <div className="text-[10px] text-neutral-400">{data.target}</div>
+    <div className="w-[200px] px-5 py-4 rounded-full bg-emerald-500/20 border-2 border-emerald-500 text-center">
+      <div className="text-sm font-bold text-emerald-400 break-words leading-tight">
+        {data.label}
+      </div>
+      <div className="text-[11px] text-neutral-400 mt-1">
+        {data.target}
+      </div>
     </div>
   );
 }
 
 function FunctionHeader({ data }: { data: { label: string; description: string } }) {
   return (
-    <div className="px-4 py-3 rounded-lg bg-blue-500/10 border border-blue-500/30 min-w-[160px] text-center">
-      <div className="text-sm font-bold text-blue-400">{data.label}</div>
-      <div className="text-[10px] text-neutral-500 mt-1">{data.description}</div>
+    <div className="w-[240px] px-4 py-3 rounded-lg bg-blue-500/10 border border-blue-500/30 text-center">
+      <div className="text-base font-bold text-blue-400">
+        {data.label}
+      </div>
+      <div className="text-[10px] text-neutral-500 mt-1 leading-snug break-words">
+        {data.description}
+      </div>
     </div>
   );
 }
